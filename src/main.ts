@@ -1,0 +1,64 @@
+import { Plugin } from 'obsidian';
+import { DEFAULT_SETTINGS, type SettingsInterface } from 'src/types';
+import { mount, unmount } from 'svelte';
+import { Bootstrap } from 'src/bootstrap';
+
+import Basic from './presentation/widgets/Basic.widget.svelte';
+import Advanced from 'src/presentation/widgets/Advanced.widget.svelte';
+import Quote from 'src/presentation/widgets/Quote.widget.svelte';
+
+export default class ObsidianWidgets extends Plugin {
+
+    settings: SettingsInterface = DEFAULT_SETTINGS;
+
+    // Widgets
+    basic: ReturnType<typeof Basic> | undefined;
+    advanced: ReturnType<typeof Advanced> | undefined;
+    quote: ReturnType<typeof Quote> | undefined;
+
+    async onload() {
+
+        await new Bootstrap(this, this.app).run();
+
+        this.registerMarkdownCodeBlockProcessor('ow-basic', (_, el, _ctx) => {
+            this.basic = mount(Basic, {
+                target: el,
+            });
+        });
+
+        this.registerMarkdownCodeBlockProcessor('ow-advanced', (_, el, _ctx) => {
+            this.advanced = mount(Advanced, {
+                target: el
+            });
+        });
+
+        this.registerMarkdownCodeBlockProcessor('ow-quote', (_, el, _ctx) => {
+            this.quote = mount(Quote, {
+                target: el
+            });
+        });
+    }
+
+    onunload() {
+        if (this.basic) {
+            unmount(this.basic);
+        }
+
+        if (this.advanced) {
+            unmount(this.advanced);
+        }
+
+        if (this.quote) {
+            unmount(this.quote);
+        }
+    }
+
+    async loadSettings() {
+        this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    }
+
+    async saveSettings() {
+        await this.saveData(this.settings);
+    }
+
+}
