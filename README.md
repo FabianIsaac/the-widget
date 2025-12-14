@@ -20,26 +20,26 @@ Plugin for Obsidian that adds reusable widgets (cards) for your notes. Includes 
 
 Widgets are mounted as Markdown block processors using the following block languages:
 
-- `ow-basic` → mounts `Basic Widget`
-- `ow-advanced` → mounts `Advanced Widget`
-- `ow-quote` → mounts `Quote Widget`
+- `tw-basic` → mounts `Basic Widget`
+- `tw-advanced` → mounts `Advanced Widget`
+- `tw-quote` → mounts `Quote Widget`
 
 Example usage in a note (insert a code block):
 
 ```markdown
-```ow-basic
+```tw-basic
 ```
 
 ```markdown
-```ow-advanced
+```tw-advanced
 ```
 
 ```markdown
-```ow-quote
+```tw-quote
 ```
 
 
-- Add a code block in your note with the language `ow-basic`, `ow-advanced`, or `ow-quote` to mount the corresponding widget.
+- Add a code block in your note with the language `tw-basic`, `tw-advanced`, or `tw-quote` to mount the corresponding widget.
 - Configure the actions for the `Advanced` widget from the plugin settings tab.
 
 
