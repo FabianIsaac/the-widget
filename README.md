@@ -1,4 +1,4 @@
-# Obsidian Widgets
+# The Widget
 
 Plugin for Obsidian that adds reusable widgets (cards) for your notes. Includes ready-to-use widgets: `Basic`, `Advanced`, and `Quote`.
 

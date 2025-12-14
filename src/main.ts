@@ -20,19 +20,19 @@ export default class ObsidianWidgets extends Plugin {
 
         await new Bootstrap(this, this.app).run();
 
-        this.registerMarkdownCodeBlockProcessor('ow-basic', (_, el, _ctx) => {
+        this.registerMarkdownCodeBlockProcessor('tw-basic', (_, el, _ctx) => {
             this.basic = mount(Basic, {
                 target: el,
             });
         });
 
-        this.registerMarkdownCodeBlockProcessor('ow-advanced', (_, el, _ctx) => {
+        this.registerMarkdownCodeBlockProcessor('tw-advanced', (_, el, _ctx) => {
             this.advanced = mount(Advanced, {
                 target: el
             });
         });
 
-        this.registerMarkdownCodeBlockProcessor('ow-quote', (_, el, _ctx) => {
+        this.registerMarkdownCodeBlockProcessor('tw-quote', (_, el, _ctx) => {
             this.quote = mount(Quote, {
                 target: el
             });

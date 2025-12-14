@@ -1,11 +1,11 @@
 {
-	"id": "obsidian-widgets",
-	"name": "Obsidian Widgets",
-	"version": "1.0.1",
+	"id": "the-widget",
+	"name": "The Widget",
+	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
 	"description": "A plugin to add customizable widgets to Obsidian.",
-	"author": "fiquintanilla",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"author": "FabianIsaac",
+	"authorUrl": "https://github.com/FabianIsaac",
+	"fundingUrl": "",
 	"isDesktopOnly": false
 }

@@ -9,7 +9,7 @@ class ObsidianEngine {
 
     private app: App;
     private plugin: ObsidianWidgets;
-    public pluginName: string = "Obsidian Widgets";
+    public pluginName: string = "The Widget";
 
     private constructor(app: App, plugin: ObsidianWidgets) {
         this.plugin = plugin;
@@ -30,7 +30,7 @@ class ObsidianEngine {
 
     static getInstance(): ObsidianEngine {
         if (!ObsidianEngine._instance) {
-            throw new Error("Obsidian Widgets: ObsidianEngine not initialized. Call Initialize() first.");
+            throw new Error("The Widget: ObsidianEngine not initialized. Call Initialize() first.");
         }
 
         return ObsidianEngine._instance;
@@ -55,7 +55,7 @@ class ObsidianEngine {
         }
         this.message("Plugin or settings not available");
 
-        throw new Error("Obsidian Widget: Plugin or settings not available");
+        throw new Error("The Widget: Plugin or settings not available");
     }
 
     public async saveSettings(settings: SettingsInterface): Promise<void> {
