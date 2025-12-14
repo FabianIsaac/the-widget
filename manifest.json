@@ -3,7 +3,7 @@
 	"name": "The Widget",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "A plugin to add customizable widgets to Obsidian.",
+	"description": "A plugin to add customizable widgets.",
 	"author": "FabianIsaac",
 	"authorUrl": "https://github.com/FabianIsaac",
 	"fundingUrl": "",
