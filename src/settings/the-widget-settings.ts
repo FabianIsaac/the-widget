@@ -1,17 +1,17 @@
-import ObsidianWidgets from "src/main";
+import TheWidget from "src/main";
 import { App, PluginSettingTab, Setting } from "obsidian";
 import { DEFAULT_SETTINGS, type SettingsInterface, type ActionInterface } from "src/types";
 import ObsidianEngine from "src/application/obsidian-engine";
 
 
-export class ObsidianWidgetSettingsTab extends PluginSettingTab {
+export class TheWidgetSettingsTab extends PluginSettingTab {
 
-    plugin: ObsidianWidgets;
+    plugin: TheWidget;
     element: HTMLElement;
     settings: SettingsInterface;
     obsidianEngine: ObsidianEngine;
 
-    constructor(app: App, plugin: ObsidianWidgets) {
+    constructor(app: App, plugin: TheWidget) {
         super(app, plugin);
         
         this.obsidianEngine = ObsidianEngine.getInstance();

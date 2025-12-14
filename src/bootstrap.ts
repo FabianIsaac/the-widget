@@ -1,12 +1,12 @@
-import type ObsidianWidgets from "src/main";
+import type TheWidget from "src/main";
 import type { App } from "obsidian";
 import { ObsidianEngine, QuoteHelper } from "./application";
-import { ObsidianWidgetSettingsTab } from "./settings/obsidian-widgets-settings";
+import { TheWidgetSettingsTab } from "./settings/the-widget-settings";
 
 export class Bootstrap  {
 
     constructor(
-		private plugin: ObsidianWidgets,
+        private plugin: TheWidget,
         private app: App
     ) {
         // Empty constructor or initialization if needed
@@ -20,7 +20,7 @@ export class Bootstrap  {
         
         await this.loadDailyQuote();
 
-        this.plugin.addSettingTab(new ObsidianWidgetSettingsTab(this.app, this.plugin));
+        this.plugin.addSettingTab(new TheWidgetSettingsTab(this.app, this.plugin));
     }
 
 

@@ -7,7 +7,7 @@ import Basic from './presentation/widgets/Basic.widget.svelte';
 import Advanced from 'src/presentation/widgets/Advanced.widget.svelte';
 import Quote from 'src/presentation/widgets/Quote.widget.svelte';
 
-export default class ObsidianWidgets extends Plugin {
+export default class TheWidget extends Plugin {
 
     settings: SettingsInterface = DEFAULT_SETTINGS;
 

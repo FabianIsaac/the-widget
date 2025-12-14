@@ -1,6 +1,6 @@
 import { Notice, Plugin, moment } from "obsidian";
 import type { App } from "obsidian";
-import type ObsidianWidgets from "src/main";
+import type TheWidget from "src/main";
 import type { SettingsInterface } from "src/types";
 
 class ObsidianEngine {
@@ -8,10 +8,10 @@ class ObsidianEngine {
     private static _instance: ObsidianEngine | null = null;
 
     private app: App;
-    private plugin: ObsidianWidgets;
+    private plugin: TheWidget;
     public pluginName: string = "The Widget";
 
-    private constructor(app: App, plugin: ObsidianWidgets) {
+    private constructor(app: App, plugin: TheWidget) {
         this.plugin = plugin;
         this.app = app;
 
@@ -20,7 +20,7 @@ class ObsidianEngine {
         }
     }
 
-    static async initialize(app: App, plugin: ObsidianWidgets): Promise<void> {
+    static async initialize(app: App, plugin: TheWidget): Promise<void> {
         if (!ObsidianEngine._instance) {
             ObsidianEngine._instance = new ObsidianEngine(app, plugin);
         }
