@@ -18,10 +18,6 @@ class ExplorerEngine {
         return ExplorerEngine._instance;
     }
 
-    public explore() {
-        console.log("Exploring...");
-    }
-
     // Mantengo un método sincrónico simple por compatibilidad si lo necesitas:
     public getFiles(): TFile[] {
         return this.app.vault.getMarkdownFiles();

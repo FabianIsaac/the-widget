@@ -20,7 +20,7 @@ class ObsidianEngine {
         }
     }
 
-    static async initialize(app: App, plugin: TheWidget): Promise<void> {
+    static initialize(app: App, plugin: TheWidget): void {
         if (!ObsidianEngine._instance) {
             ObsidianEngine._instance = new ObsidianEngine(app, plugin);
         }
@@ -72,9 +72,9 @@ class ObsidianEngine {
     public executeCommandById(commandId: string): void {
         // Intentar ejecutar mediante la app provista por el plugin
         try {
-            // @ts-ignore
+            // @ts-expect-error - acceso a API interna de Obsidian
             if (this.app && this.app.commands && typeof this.app.commands.executeCommandById === 'function') {
-                // @ts-ignore
+                // @ts-expect-error - acceso a API interna de Obsidian
                 this.app.commands.executeCommandById(commandId);
                 return;
             }
