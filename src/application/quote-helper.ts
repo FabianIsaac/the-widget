@@ -51,7 +51,6 @@ class QuoteHelper {
             const quote = data.phrase ?? data.content ?? "";
             const author = data.author ?? data.autor ?? "";
 
-            this.obsidianHelper
             return {
                 quote,
                 author,
@@ -67,7 +66,7 @@ class QuoteHelper {
     // Nuevo método: obtiene la cita y la guarda en settings.quoteData usando plugin.saveData
     public async fetchAndStoreDailyQuote(): Promise<DailyQuoteInterface | null> {
         
-        let settings = this.obsidianHelper.getSettings();
+        const settings = this.obsidianHelper.getSettings();
 
         if (!(settings?.dailyQuote && settings.quoteData === null || settings?.quoteData?.date === undefined || settings.quoteData.date !== (moment as any)().format("YYYY-MM-DD"))) {
 
