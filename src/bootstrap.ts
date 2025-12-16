@@ -15,8 +15,7 @@ export class Bootstrap  {
     async run(): Promise<void> {
         await this.plugin.loadSettings();
         
-        await ObsidianEngine.initialize(this.app, this.plugin);
-        
+        ObsidianEngine.initialize(this.app, this.plugin);
         
         await this.loadDailyQuote();
 

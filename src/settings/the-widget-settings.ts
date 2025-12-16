@@ -22,13 +22,13 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
 
     display(): void {
         this.element.empty();
-        this.CreateHeader('General Settings.');
+        this.CreateHeader('General settings.');
         this.DailyNoteFormatSetting();
         this.CreateQuoteSettings();
         this.CommandForDailyNoteSetting();
         this.IconForWeeklyNoteSetting();
         this.CommandForWeeklyNoteSetting();
-        this.CreateHeader('Settings for Advanced Widgets.');
+        this.CreateHeader('Settings for advanced widgets.');
         this.CreateDynamicActionSettings();
         this.AddActionSetting();
     }
@@ -44,7 +44,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
         dateDesc.createEl('br');
         dateDesc.appendText('For a list of all available tokens, see the ');
         dateDesc.createEl('a', {
-            text: 'format reference',
+            text: 'Format reference',
             attr: { href: 'https://momentjs.com/docs/#/displaying/format/', target: '_blank' }
         });
         dateDesc.createEl('br');
@@ -110,7 +110,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
         dateDesc.createEl('br');
         dateDesc.appendText('For a list of all available icons, see the ');
         dateDesc.createEl('a', {
-            text: 'icon reference',
+            text: 'Icon reference',
             attr: { href: 'https://lucide.dev/icons', target: '_blank' }
         });
         dateDesc.createEl('br');
@@ -118,11 +118,11 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
         const dateSampleEl = dateDesc.createEl('b', 'u-pop');
 
         return new Setting(this.element)
-            .setName('Action Settings')
+            .setName('Action settings')
             .setDesc(dateDesc)
             
             .addButton(button => button
-                .setButtonText('Add Action')
+                .setButtonText('Add action')
                 .onClick(() => {
                     this.settings.actions.push({ icon: 'carrot', command: 'my-command' });
                     this.display();
@@ -173,7 +173,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
 
     private CreateQuoteSettings(): void {
         new Setting(this.element)
-            .setName('Use Daily Quote')
+            .setName('Use daily quote')
             .setDesc('Enable or disable the daily quote feature in the widget.')
             .addToggle(toggle => toggle
                 .setValue(this.settings.dailyQuote ?? false)

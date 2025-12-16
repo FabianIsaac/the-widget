@@ -37,13 +37,13 @@ class QuoteHelper {
                 try {
                     data = JSON.parse(res.text);
                 } catch (err) {
-                    new Notice("QuoteHelper: failed to parse response text as JSON");
+                    new Notice("QuoteHelper: Failed to parse response text as JSON");
                     data = null;
                 }
             }
 
             if (!data) {
-                new Notice("QuoteHelper: no data returned from requestUrl");
+                new Notice("QuoteHelper: No data returned from requestUrl");
                 return null;
             }
 
@@ -58,7 +58,7 @@ class QuoteHelper {
             };
         } catch (err) {
             // Manejo de errores y logging
-            new Notice("QuoteHelper: failed to fetch daily quote");
+            new Notice("QuoteHelper: Failed to fetch daily quote");
             return null;
         }
     }
@@ -89,7 +89,7 @@ class QuoteHelper {
 
             return settings.quoteData;
         } catch (err) {
-            new Notice(`${this.obsidianHelper.pluginName}: failed to fetch and store daily quote`);
+            new Notice(`${this.obsidianHelper.pluginName}: Failed to fetch and store daily quote`);
             return null;
         }
     }

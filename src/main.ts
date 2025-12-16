@@ -41,15 +41,15 @@ export default class TheWidget extends Plugin {
 
     onunload() {
         if (this.basic) {
-            unmount(this.basic);
+            void unmount(this.basic);
         }
 
         if (this.advanced) {
-            unmount(this.advanced);
+            void unmount(this.advanced);
         }
 
         if (this.quote) {
-            unmount(this.quote);
+            void unmount(this.quote);
         }
     }
 
