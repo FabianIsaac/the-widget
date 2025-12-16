@@ -30,7 +30,7 @@ class QuoteHelper {
             const res = await requestUrl({ url: "https://frasedeldia.azurewebsites.net/api/phrase", method: "GET" });
 
             // requestUrl suele exponer `text`; parseamos JSON de forma segura
-            let data: any = null;
+            let data: { phrase?: string; author?: string; content?: string; autor?: string } | null = null;
             if (res.json) {
                 data = res.json;
             } else if (typeof res.text === "string" && res.text.length) {
@@ -68,7 +68,7 @@ class QuoteHelper {
         
         const settings = this.obsidianHelper.getSettings();
 
-        if (!(settings?.dailyQuote && settings.quoteData === null || settings?.quoteData?.date === undefined || settings.quoteData.date !== (moment as any)().format("YYYY-MM-DD"))) {
+        if (!(settings?.dailyQuote && settings.quoteData === null || settings?.quoteData?.date === undefined || settings.quoteData.date !== moment().format("YYYY-MM-DD"))) {
 
             return settings.quoteData;
         }

@@ -50,8 +50,8 @@ class ObsidianEngine {
 
     public getSettings(): SettingsInterface {
 
-        if (this.plugin && (this.plugin as any).settings) {
-            return (this.plugin as any).settings;
+        if (this.plugin && this.plugin.settings) {
+            return this.plugin.settings;
         }
         this.message("Plugin or settings not available");
 
@@ -60,13 +60,13 @@ class ObsidianEngine {
 
     public async saveSettings(settings: SettingsInterface): Promise<void> {
         if (this.plugin && typeof this.plugin.saveData === "function") {
-            (this.plugin as any).settings = settings;
+            this.plugin.settings = settings;
             await this.plugin.saveData(settings);
         }
     }
 
     public getDate(){
-        return (moment as any)().format("YYYY-MM-DD");
+        return moment().format("YYYY-MM-DD");
     }
 
     public executeCommandById(commandId: string): void {
