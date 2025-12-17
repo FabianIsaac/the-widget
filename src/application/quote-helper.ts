@@ -30,20 +30,20 @@ class QuoteHelper {
             const res = await requestUrl({ url: "https://frasedeldia.azurewebsites.net/api/phrase", method: "GET" });
 
             // requestUrl suele exponer `text`; parseamos JSON de forma segura
-            let data: any = null;
+            let data: { phrase?: string; author?: string; content?: string; autor?: string } | null = null;
             if (res.json) {
                 data = res.json;
             } else if (typeof res.text === "string" && res.text.length) {
                 try {
                     data = JSON.parse(res.text);
                 } catch (err) {
-                    new Notice("QuoteHelper: failed to parse response text as JSON");
+                    new Notice("QuoteHelper: Failed to parse response text as JSON");
                     data = null;
                 }
             }
 
             if (!data) {
-                new Notice("QuoteHelper: no data returned from requestUrl");
+                new Notice("QuoteHelper: No data returned from requestUrl");
                 return null;
             }
 
@@ -58,7 +58,7 @@ class QuoteHelper {
             };
         } catch (err) {
             // Manejo de errores y logging
-            new Notice("QuoteHelper: failed to fetch daily quote");
+            new Notice("QuoteHelper: Failed to fetch daily quote");
             return null;
         }
     }
@@ -68,7 +68,7 @@ class QuoteHelper {
         
         const settings = this.obsidianHelper.getSettings();
 
-        if (!(settings?.dailyQuote && settings.quoteData === null || settings?.quoteData?.date === undefined || settings.quoteData.date !== (moment as any)().format("YYYY-MM-DD"))) {
+        if (!(settings?.dailyQuote && settings.quoteData === null || settings?.quoteData?.date === undefined || settings.quoteData.date !== moment().format("YYYY-MM-DD"))) {
 
             return settings.quoteData;
         }
@@ -89,7 +89,7 @@ class QuoteHelper {
 
             return settings.quoteData;
         } catch (err) {
-            new Notice(`${this.obsidianHelper.pluginName}: failed to fetch and store daily quote`);
+            new Notice(`${this.obsidianHelper.pluginName}: Failed to fetch and store daily quote`);
             return null;
         }
     }

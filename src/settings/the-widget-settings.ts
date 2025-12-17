@@ -1,5 +1,5 @@
 import TheWidget from "src/main";
-import { App, PluginSettingTab, Setting } from "obsidian";
+import { App, Notice, PluginSettingTab, Setting } from "obsidian";
 import { DEFAULT_SETTINGS, type SettingsInterface, type ActionInterface } from "src/types";
 import ObsidianEngine from "src/application/obsidian-engine";
 
@@ -22,15 +22,76 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
 
     display(): void {
         this.element.empty();
-        this.CreateHeader('General Settings.');
+        this.CreateHeader('General settings.');
         this.DailyNoteFormatSetting();
         this.CreateQuoteSettings();
         this.CommandForDailyNoteSetting();
         this.IconForWeeklyNoteSetting();
         this.CommandForWeeklyNoteSetting();
-        this.CreateHeader('Settings for Advanced Widgets.');
+        this.CreateHeader('Settings for advanced widgets.');
         this.CreateDynamicActionSettings();
         this.AddActionSetting();
+        this.CreateHeader('Helper to find command IDs.');
+        this.CommandFinderSetting();
+    }
+
+    private async copyToClipboard(text: string): Promise<void> {
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+            try {
+                await navigator.clipboard.writeText(text);
+                return;
+            } catch (e) {
+                // continue to fallback below
+            }
+        }
+
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+
+        // As `document.execCommand('copy')` is deprecated, instruct the user to copy manually if Clipboard API fails.
+        new Notice('Clipboard API not available. The text has been selected — press Cmd/Ctrl+C to copy.');
+
+        setTimeout(() => {
+            try { document.body.removeChild(ta); } catch (e) { /* ignore */ }
+        }, 2000);
+    }
+
+    private CommandFinderSetting(): Setting {
+        let textComponent: any = null;
+
+        return new Setting(this.element)
+            .setName('Find command ID by name')
+            .setDesc('Type the exact command name, then copy the ID or save it to a setting.')
+            .addText(text => {
+                text.setPlaceholder('Enter command name');
+                textComponent = text;
+            })
+            .addButton(button => button
+                .setButtonText('Find & copy ID')
+                .onClick(async () => {
+                    const commandName = textComponent?.getValue?.() || '';
+                    if (!commandName) {
+                        new Notice('Please enter a command name.');
+                        return;
+                    }
+
+                    // @ts-expect-error - listCommands is present on app.commands
+                    const command = this.app.commands.listCommands().find((c: any) => c.name === commandName);
+
+                    if (command) {
+                        await this.copyToClipboard(command.id);
+                        new Notice(`ID copiado al portapapeles: ${command.id}`);
+                        try { textComponent?.setValue?.(''); } catch (e) { /* ignore */ }
+                    } else {
+                        new Notice('Comando no encontrado. Revisa que el nombre sea exacto.');
+                    }
+                }));
+          
     }
 
     private CreateHeader(text: string): void {
@@ -44,7 +105,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
         dateDesc.createEl('br');
         dateDesc.appendText('For a list of all available tokens, see the ');
         dateDesc.createEl('a', {
-            text: 'format reference',
+            text: 'Format reference',
             attr: { href: 'https://momentjs.com/docs/#/displaying/format/', target: '_blank' }
         });
         dateDesc.createEl('br');
@@ -110,7 +171,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
         dateDesc.createEl('br');
         dateDesc.appendText('For a list of all available icons, see the ');
         dateDesc.createEl('a', {
-            text: 'icon reference',
+            text: 'Icon reference',
             attr: { href: 'https://lucide.dev/icons', target: '_blank' }
         });
         dateDesc.createEl('br');
@@ -118,11 +179,11 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
         const dateSampleEl = dateDesc.createEl('b', 'u-pop');
 
         return new Setting(this.element)
-            .setName('Action Settings')
+            .setName('Action settings')
             .setDesc(dateDesc)
             
             .addButton(button => button
-                .setButtonText('Add Action')
+                .setButtonText('Add action')
                 .onClick(() => {
                     this.settings.actions.push({ icon: 'carrot', command: 'my-command' });
                     this.display();
@@ -173,7 +234,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
 
     private CreateQuoteSettings(): void {
         new Setting(this.element)
-            .setName('Use Daily Quote')
+            .setName('Use daily quote')
             .setDesc('Enable or disable the daily quote feature in the widget.')
             .addToggle(toggle => toggle
                 .setValue(this.settings.dailyQuote ?? false)
