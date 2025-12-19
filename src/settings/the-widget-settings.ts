@@ -1,5 +1,5 @@
 import TheWidget from "src/main";
-import { App, Notice, PluginSettingTab, Setting, TextComponent } from "obsidian";
+import { App, PluginSettingTab, Setting, TextComponent } from "obsidian";
 import { DEFAULT_SETTINGS, type SettingsInterface, type ActionInterface } from "src/types";
 import ObsidianEngine from "src/application/obsidian-engine";
 
@@ -54,7 +54,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
         ta.select();
 
         // As `document.execCommand('copy')` is deprecated, instruct the user to copy manually if Clipboard API fails.
-        new Notice('Clipboard API not available. The text has been selected — press Cmd/Ctrl+C to copy.');
+        this.obsidianEngine.message('Clipboard API not available. The text has been selected — press Cmd/Ctrl+C to copy.');
 
         setTimeout(() => {
             try { document.body.removeChild(ta); } catch (e) { /* ignore */ }
@@ -77,7 +77,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
                 .onClick(async () => {
                     const commandName = textComponent?.getValue?.() || '';
                     if (!commandName) {
-                        new Notice('Please enter a command name.');
+                        this.obsidianEngine.message('Please enter a command name.');
                         return;
                     }
 
@@ -86,10 +86,10 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
 
                     if (command) {
                         await this.copyToClipboard(command.id);
-                        new Notice(`ID "${command.id}" copied to clipboard.`);
+                        this.obsidianEngine.message(`ID "${command.id}" copied to clipboard.`);
                         try { textComponent?.setValue?.(''); } catch (e) { /* ignore */ }
                     } else {
-                        new Notice('Command not found. Please check the exact name and try again.');
+                        this.obsidianEngine.message('Command not found. Please check the exact name and try again.');
                     }
                 }));
           
