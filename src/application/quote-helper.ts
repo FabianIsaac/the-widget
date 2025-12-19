@@ -37,13 +37,13 @@ class QuoteHelper {
                 try {
                     data = JSON.parse(res.text);
                 } catch (err) {
-                    new Notice("QuoteHelper: Failed to parse response text as JSON");
+                    this.obsidianHelper.message("Failed to parse response text as json.");
                     data = null;
                 }
             }
 
             if (!data) {
-                new Notice("QuoteHelper: No data returned from requestUrl");
+                this.obsidianHelper.message("No data returned from quote api.");
                 return null;
             }
 

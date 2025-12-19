@@ -1,5 +1,5 @@
 import TheWidget from "src/main";
-import { App, Notice, PluginSettingTab, Setting } from "obsidian";
+import { App, Notice, PluginSettingTab, Setting, TextComponent } from "obsidian";
 import { DEFAULT_SETTINGS, type SettingsInterface, type ActionInterface } from "src/types";
 import ObsidianEngine from "src/application/obsidian-engine";
 
@@ -45,10 +45,10 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
             }
         }
 
-        const ta = document.createElement('textarea');
+        const ta = document.createElement('textarea') as HTMLTextAreaElement;
         ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
+        ta.setCssProps({ position: 'fixed', left: '-9999px', border: '1px solid yellow' });
+        
         document.body.appendChild(ta);
         ta.focus();
         ta.select();
@@ -62,7 +62,8 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
     }
 
     private CommandFinderSetting(): Setting {
-        let textComponent: any = null;
+        
+        let textComponent: TextComponent | null = null;
 
         return new Setting(this.element)
             .setName('Find command ID by name')
@@ -81,14 +82,14 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
                     }
 
                     // @ts-expect-error - listCommands is present on app.commands
-                    const command = this.app.commands.listCommands().find((c: any) => c.name === commandName);
+                    const command = this.app.commands.listCommands().find((c: CommandItem) => c.name === commandName);
 
                     if (command) {
                         await this.copyToClipboard(command.id);
-                        new Notice(`ID copiado al portapapeles: ${command.id}`);
+                        new Notice(`ID "${command.id}" copied to clipboard.`);
                         try { textComponent?.setValue?.(''); } catch (e) { /* ignore */ }
                     } else {
-                        new Notice('Comando no encontrado. Revisa que el nombre sea exacto.');
+                        new Notice('Command not found. Please check the exact name and try again.');
                     }
                 }));
           

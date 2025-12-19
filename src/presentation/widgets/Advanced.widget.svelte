@@ -49,7 +49,7 @@
 
 <div class="ow-widget-card">
     {#if actionIcons.length > 0}
-        <div class="ow-flex-row-center ow-p-2 ow-px-4 ow-gap-2">
+        <div class="ow-flex-row-center ow-p-2 ow-px-4 ow-gap-4">
             {#each actionIcons as action}
                 <button
                     class="ow-simply-link-button"
