@@ -58,7 +58,7 @@ class QuoteHelper {
             };
         } catch (err) {
             // Manejo de errores y logging
-            new Notice("QuoteHelper: Failed to fetch daily quote");
+            this.obsidianHelper.message("Failed to fetch daily quote");
             return null;
         }
     }
@@ -89,7 +89,7 @@ class QuoteHelper {
 
             return settings.quoteData;
         } catch (err) {
-            new Notice(`${this.obsidianHelper.pluginName}: Failed to fetch and store daily quote`);
+            this.obsidianHelper.message("Failed to fetch and store daily quote");
             return null;
         }
     }

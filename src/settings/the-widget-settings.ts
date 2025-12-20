@@ -45,7 +45,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
             }
         }
 
-        const ta = document.createElement('textarea') as HTMLTextAreaElement;
+        const ta = document.createElement('textarea');
         ta.value = text;
         ta.setCssProps({ position: 'fixed', left: '-9999px', border: '1px solid yellow' });
         
