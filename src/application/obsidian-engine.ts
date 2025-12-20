@@ -1,4 +1,4 @@
-import { Notice, Plugin, moment } from "obsidian";
+import { Notice, Plugin, TFile, moment } from "obsidian";
 import type { App } from "obsidian";
 import type TheWidget from "src/main";
 import type { SettingsInterface } from "src/types";
@@ -89,6 +89,46 @@ class ObsidianEngine {
             document.dispatchEvent(event);
         }
     }
+
+    public async openLink(url: string, newTab: boolean = true): Promise<void> {
+        await this.app.workspace.openLinkText(url, "", newTab);
+    }
+
+    public async openFileByPath(filePath: string, newTab: boolean = true): Promise<void> {
+        const file = this.app.vault.getAbstractFileByPath(filePath);
+        if (file instanceof TFile) {
+            const leaf = this.app.workspace.getLeaf(newTab); // false = pestaña actual
+            await leaf.openFile(file); // abre la nota
+        }
+    }
+
+    public async  openOrCreateFromTemplate(
+    targetPath: string,      // "Carpeta/Nota.md"
+    templatePath: string     // "Templates/MiTemplate.md"
+    ) {
+    const abstract = this.app.vault.getAbstractFileByPath(targetPath);
+
+    let file: TFile;
+
+    if (abstract instanceof TFile) {
+        // Ya existe: usar la nota existente
+        file = abstract;
+    } else {
+        // No existe: crear desde template
+        const templateFile = this.app.vault.getAbstractFileByPath(templatePath);
+        if (!(templateFile instanceof TFile)) {
+        new Notice("Template no encontrado");
+        return;
+        }
+
+        const templateContent = await this.app.vault.read(templateFile);
+        file = await this.app.vault.create(targetPath, templateContent);
+    }
+
+    const leaf = this.app.workspace.getLeaf(false);
+    await leaf.openFile(file);
+    }
+
 
 }
 

@@ -22,7 +22,7 @@
 }
 
 .ow-justify-center {
-    justify-content: center;
+    justify-content: center !important;
 }
 
 .ow-items-start {
@@ -113,6 +113,7 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    gap: 0.4rem;
 
     &:hover {
         color: var(--text-accent) !important;
@@ -126,49 +127,76 @@
     }
 }
 
-.ow-blockquote {
-    margin: 0;
-    border-left: 2px solid var(--text-accent) !important;
-    padding-left: 1rem !important;
-    font-style: italic !important;
+.ow-small-text {
+    font-size: 0.975rem !important;
+    line-height: 1.25rem;
+}
 
-    .ow-quote {
-        font-size: 1.5rem !important;
-        line-height: 2rem !important;
-        margin: 0;
+.ow-year {
+    cursor: pointer; 
+    
+}
 
-        &::before {
-            content: open-quote !important;
-            color: var(--text-faint) !important;
-        }
+/* Weekly widget styles */
+.weekly-widget { padding: 8px; }
 
-        &::after {
-            content: close-quote !important;
-            color: var(--text-faint) !important;
-        }
-    }
+.week-row { 
+    display: flex; 
+    gap: 0.6rem; 
+    justify-content: space-between; 
+}
 
-    .ow-author {
-        font-size: 0.875rem !important;
-        line-height: 1.25rem !important;
-        text-align: right !important;
-        margin-top: 0.5rem !important;
-        color: var(--text-accent) !important;
-    }
+.day-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50px;
+    padding: 30px;
+    background: none !important;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    color: var(--text-normal, #ddd);
+    box-shadow: none !important;
+    text-decoration: none;
+}
+.day-button:focus { 
+    outline: 2px solid rgba(128,90,225,0.12); 
+    background-color: var(--text-accent);
+}
 
-    &.ow-small-quote {
-        padding: 4px 0;
+.day-name { 
+    font-size: 11px; 
+    font-weight: 600; 
+    color: var(--muted, #898989); 
+    transition: color .12s ease; 
+    display:block; 
+    margin-bottom:0.25rem;
+}
 
-        .ow-quote {
-            font-size: 12pt !important;
-            line-height: 13pt !important;
-        }
+.day-number { 
+    font-size: 16px; 
+    font-weight: 700; 
+    margin-top: 4px; 
+    transition: color .12s ease; 
+    display:block; 
+    font-weight:600;
+}
+.day-button.active { 
+    background-color: var(--text-accent) !important;
+}
 
-        .ow-author {
-            font-size: 10pt !important;
-            text-align: left !important;
-        }
-    }
+/* Hover: only change color on hover (no permanent highlight) */
+.day-button:not(.active):hover .day-name,
+.day-button:not(.active):hover .day-number {
+    color: var(--text-accent);
+}
+
+/* Active (current day): emphasize text + show indicator */
+.day-button.active .day-name,
+.day-button.active .day-number {
+    color: #fff;
 }
 
 .ow-custom-block {
@@ -245,4 +273,49 @@
             height: 100%;
         }
     }
+}
+
+.ow-blockquote {
+    margin: 0;
+    border-left: 2px solid var(--text-accent) !important;
+    padding-left: 1rem !important;
+    font-style: italic !important;
+}
+
+.ow-blockquote .ow-quote {
+    font-size: 1.5rem !important;
+    line-height: 2rem !important;
+    margin: 0;
+}
+
+.ow-blockquote .ow-quote::before {
+    content: open-quote !important;
+    color: var(--text-faint) !important;
+}
+
+.ow-blockquote .ow-quote::after {
+    content: close-quote !important;
+    color: var(--text-faint) !important;
+}
+
+.ow-blockquote .ow-author {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+    text-align: right !important;
+    margin-top: 0.5rem !important;
+    color: var(--text-accent) !important;
+}
+
+.ow-blockquote.ow-small-quote {
+    padding: 4px 0;
+}
+
+.ow-blockquote.ow-small-quote .ow-quote {
+    font-size: 12pt !important;
+    line-height: 13pt !important;
+}
+
+.ow-blockquote.ow-small-quote .ow-author {
+    font-size: 10pt !important;
+    text-align: left !important;
 }

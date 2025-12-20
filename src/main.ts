@@ -6,6 +6,7 @@ import { Bootstrap } from 'src/bootstrap';
 import Basic from './presentation/widgets/Basic.widget.svelte';
 import Advanced from 'src/presentation/widgets/Advanced.widget.svelte';
 import Quote from 'src/presentation/widgets/Quote.widget.svelte';
+import Weekly from 'src/presentation/widgets/Weekly.widget.svelte';
 
 export default class TheWidget extends Plugin {
 
@@ -15,6 +16,7 @@ export default class TheWidget extends Plugin {
     basic: ReturnType<typeof Basic> | undefined;
     advanced: ReturnType<typeof Advanced> | undefined;
     quote: ReturnType<typeof Quote> | undefined;
+    weekly: ReturnType<typeof Weekly> | undefined;
 
     async onload() {
 
@@ -28,6 +30,12 @@ export default class TheWidget extends Plugin {
 
         this.registerMarkdownCodeBlockProcessor('tw-advanced', (_, el, _ctx) => {
             this.advanced = mount(Advanced, {
+                target: el
+            });
+        });
+
+        this.registerMarkdownCodeBlockProcessor('tw-weekly', (_, el, _ctx) => {
+            this.weekly = mount(Weekly, {
                 target: el
             });
         });
@@ -46,6 +54,10 @@ export default class TheWidget extends Plugin {
 
         if (this.advanced) {
             void unmount(this.advanced);
+        }
+
+        if (this.weekly) {
+            void unmount(this.weekly);
         }
 
         if (this.quote) {
