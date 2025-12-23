@@ -89,7 +89,7 @@ class QuoteHelper {
 
             return settings.quoteData;
         } catch (err) {
-            this.obsidianHelper.message(`Failed to fetch and store daily quote`);
+            this.obsidianHelper.message("Failed to fetch and store daily quote");
             return null;
         }
     }
