@@ -2,6 +2,7 @@ import TheWidget from "src/main";
 import { App, PluginSettingTab, Setting, TextComponent } from "obsidian";
 import { DEFAULT_SETTINGS, type SettingsInterface, type ActionInterface } from "src/types";
 import ObsidianEngine from "src/application/obsidian-engine";
+import { WeekSettings } from "./week-settings";
 
 
 export class TheWidgetSettingsTab extends PluginSettingTab {
@@ -33,6 +34,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
         this.AddActionSetting();
         this.CreateHeader('Helper to find command IDs.');
         this.CommandFinderSetting();
+        WeekSettings.create(this.element);
     }
 
     private async copyToClipboard(text: string): Promise<void> {

@@ -12,7 +12,7 @@
     const todayStr = today.format('YYYY-MM-DD');
     const weekStart = moment(today).startOf('isoWeek');
 
-    type Day = { date: string; dayNumber: string; shortName: string; isActive: boolean };
+    type Day = { date: string; dayNumber: string; shortName: string; isActive: boolean; isWeekend: boolean; dots?: string[] };
 
     let days: Day[] = [];
     // selectedDate is the date the user clicks (does NOT change the "active" visual)
@@ -20,12 +20,16 @@
 
     for (let i = 0; i < 7; i++) {
         const d = moment(weekStart).add(i, 'days');
+        const isActive = d.format('YYYY-MM-DD') === todayStr;
+        const isWeekend = d.isoWeekday() >= 6; // 6 = Saturday, 7 = Sunday
+        // simple visual dots: active day shows two white dots; other days may show 0-2 muted dots
+        const dots = isActive ? ['white', 'white'] : (i % 3 === 0 ? ['#7c3aed'] : (i % 4 === 0 ? ['#fb923c'] : []));
         days.push({
             date: d.format('YYYY-MM-DD'),
             dayNumber: d.format('D'),
             shortName: d.format('ddd').replace(/\./g, '').toUpperCase(),
-            // isActive is true only for the actual current day
-            isActive: d.format('YYYY-MM-DD') === todayStr,
+            isActive,
+            isWeekend,
         });
     }
 
@@ -66,26 +70,38 @@
 </script>
 
 <div class="obsidian-widgets">
-    <div class="ow-widget-card ow-p-4">
-        <div class="ow-flex-col">
-            <h2 class="ow-simply-link-button">
-                <span class="ow-month">{monthName}</span>
-                <span class="ow-year">{selectedYear}</span>
-            </h2>
-            <div class="weekly-widget">
-                <div class="week-row">
-                    {#each days as day}
-                        <button
-                            type="button"
-                            class="day-button {day.isActive ? 'active' : ''}"
-                            on:click={() => openNote(day)}
-                            aria-pressed={day.isActive}
-                        >
-                            <div class="day-name">{day.shortName}</div>
-                            <div class="day-number">{day.dayNumber}</div>
-                        </button>
-                    {/each}
-                </div>
+    <div class="ow-widget-card">
+        <div class="weekly-header ow-px-4 ow-pt-2">
+            <div class="weekly-title">
+                <div class="week-subtitle">SEMANA {selectedMoment.isoWeek()}</div>
+                <div class="monthly-name">{monthName} {selectedYear}</div>
+            </div>
+            <div class="header-actions">
+                
+            </div>
+        </div>
+        <div class="ow-separator"></div>
+        <div class="weekly-widget">
+            <div class="week-row ow-px-4 ow-py-1">
+                {#each days as day}
+                    <button
+                        type="button"
+                        class="day-button {day.isActive ? 'active' : ''} {day.isWeekend ? 'weekend' : ''}"
+                        on:click={() => openNote(day)}
+                        aria-pressed={day.isActive}
+                    >
+                        <div class="day-name">{day.shortName}</div>
+                        <div class="day-number">{day.dayNumber}</div>
+
+                        {#if day.dots && day.dots.length}
+                            <div class="day-indicators">
+                                {#each day.dots as color}
+                                    <span class="indicator" style="background-color: {color};"></span>
+                                {/each}
+                            </div>
+                        {/if}
+                    </button>
+                {/each}
             </div>
         </div>
     </div>

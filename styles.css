@@ -37,7 +37,12 @@
 .ow-p-2 { padding: 0.5rem; }
 .ow-p-4 { padding: 1rem; }
 .ow-px-4 { padding-left: 1rem; padding-right: 1rem; }
+.ow-pt-2 { padding-top: 0.5rem; }
+.ow-pt-3 { padding-top: 0.75rem; }
+.ow-pt-4 { padding-top: 1rem; }
 .ow-pb-1 { padding-bottom: 0.25rem; }
+.ow-py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.ow-py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
 
 .ow-ml-7 { margin-left: 1.75rem; }
 .ow-mb-1 { margin-bottom: 0.25rem; }
@@ -142,16 +147,19 @@
 
 .week-row { 
     display: flex; 
-    gap: 0.6rem; 
-    justify-content: space-between; 
+    gap: 12px; 
+    justify-content: center; 
+    align-items: center;
 }
 
 .day-button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50px;
-    padding: 30px;
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 65px;
+    padding: 12px 8px;
     background: none !important;
     border: none;
     border-radius: 6px;
@@ -160,10 +168,11 @@
     color: var(--text-normal, #ddd);
     box-shadow: none !important;
     text-decoration: none;
+    text-align: center;
 }
 .day-button:focus { 
-    outline: 2px solid rgba(128,90,225,0.12); 
-    background-color: var(--text-accent);
+    outline: 2px solid rgba(128,90,225,0.12);
+    background-color: transparent;
 }
 
 .day-name { 
@@ -185,6 +194,9 @@
 }
 .day-button.active { 
     background-color: var(--text-accent) !important;
+    color: #fff !important;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(124,58,237,0.18), 0 2px 6px rgba(0,0,0,0.08) !important;
 }
 
 /* Hover: only change color on hover (no permanent highlight) */
@@ -197,6 +209,99 @@
 .day-button.active .day-name,
 .day-button.active .day-number {
     color: #fff;
+}
+
+/* header / title */
+.weekly-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+.weekly-title .monthly-name {
+    font-size: 1.375rem;
+    font-weight: 800;
+    text-transform: capitalize;
+}
+.weekly-title .week-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted, #8b8b8b);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 0.25rem;
+}
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+.arrow-button {
+    background: transparent;
+    border: 1px solid var(--background-modifier-border);
+    color: var(--text-normal);
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    min-width: 36px;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.arrow-button:hover {
+    border-color: color-mix(in srgb, var(--text-accent) 40%, transparent);
+    color: var(--text-accent);
+}
+
+/* day name / number styling */
+.day-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted, #9aa0a6);
+    margin-bottom: 6px;
+}
+.day-number {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+/* weekend color */
+.day-button.weekend .day-name,
+.day-button.weekend .day-number {
+    color: #ef4444; /* red-ish for weekend */
+}
+
+/* small indicators under day number */
+.day-indicators {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    min-height: 10px; /* reserve space so buttons don't shift */
+    align-items: center;
+    justify-content: center;
+}
+.indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    display: block;
+    opacity: 0.95;
+}
+
+/* make active dots white and slightly larger */
+.day-button.active .day-indicators .indicator {
+    width: 8px;
+    height: 8px;
+}
+
+/* compact layout for week-row */
+.week-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
 }
 
 .ow-custom-block {
