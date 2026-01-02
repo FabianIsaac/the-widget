@@ -13,7 +13,7 @@
         }
     });
 
-    $: computedText = settings ? moment().format(settings.dailyNoteFormat) : "";
+    $: computedText = settings ? moment().format(settings.dateDisplayFormat) : "";
 </script>
 
 <div class="ow-flex-row-center ow-gap-3">

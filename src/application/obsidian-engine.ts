@@ -1,14 +1,13 @@
-import { Notice, Plugin, TFile, moment } from "obsidian";
-import type { App } from "obsidian";
+import { Notice, TFile, moment } from "obsidian";
+import type { App, Command } from "obsidian";
 import type TheWidget from "src/main";
 import type { SettingsInterface } from "src/types";
-import FileSuggestModal from "src/ui/file-suggest";
 
 class ObsidianEngine {
 
     private static _instance: ObsidianEngine | null = null;
 
-    private app: App;
+    public app: App;
     private plugin: TheWidget;
     public pluginName: string = "The Widget";
 
@@ -39,14 +38,6 @@ class ObsidianEngine {
 
     public message(message: string, timeout: number = 4000): void {
         new Notice(`${this.pluginName}: ${message}`, timeout);
-    }
-
-    public getPlugin(): Plugin {
-        return this.plugin;
-    }
-
-    public getApp(): App {
-        return this.app;
     }
 
     public getSettings(): SettingsInterface {
@@ -91,88 +82,59 @@ class ObsidianEngine {
         }
     }
 
-    public async openLink(url: string, newTab: boolean = true): Promise<void> {
-        await this.app.workspace.openLinkText(url, "", newTab);
-    }
+    public async getTemplateContent(templatePath: string): Promise<string | null> {
+        const { vault } = this.app;
+        const templateAbstract = vault.getAbstractFileByPath(templatePath);
 
-    public async openFileByPath(filePath: string, newTab: boolean = true): Promise<void> {
-        const file = this.app.vault.getAbstractFileByPath(filePath);
-        if (file instanceof TFile) {
-            const leaf = this.app.workspace.getLeaf(newTab); // false = pestaña actual
-            await leaf.openFile(file); // abre la nota
+        if (!(templateAbstract instanceof TFile)) {
+            this.message(`Template not found: ${templatePath}`);
+            return null;
         }
+
+        const templateContent = await vault.read(templateAbstract);
+
+        return templateContent;
     }
 
-    public async openOrCreateFromTemplate(
-        targetPath: string,      // "Carpeta/Nota.md"
-        templatePath: string     // "Templates/MiTemplate.md"
-    ) {
-        const abstract = this.app.vault.getAbstractFileByPath(targetPath);
+    public async openOrCreateFromTemplate(targetPath: string, templatePath: string) {
+
+        const { vault, workspace } = this.app;
+
+        // 1. Obtener template y leer contenido del template
+        const templateContent = await this.getTemplateContent(templatePath) ?? "";
+
+        // 3. Comprobar si ya existe la nota destino
+        const existing = vault.getAbstractFileByPath(targetPath);
 
         let file: TFile;
+        if (existing instanceof TFile) {
+            file = existing;
 
-        if (abstract instanceof TFile) {
-            // Ya existe: usar la nota existente
-            file = abstract;
         } else {
-            // No existe: crear desde template
-            const templateFile = this.app.vault.getAbstractFileByPath(templatePath);
-            if (!(templateFile instanceof TFile)) {
-                new Notice("Template no encontrado");
-                return;
+
+            // Opcional: crear carpeta si no existe
+            const lastSlash = targetPath.lastIndexOf("/");
+            if (lastSlash !== -1) {
+                const folderPath = targetPath.substring(0, lastSlash);
+                if (!vault.getAbstractFileByPath(folderPath)) {
+                    await vault.createFolder(folderPath);
+                }
             }
 
-            const templateContent = await this.app.vault.read(templateFile);
-            file = await this.app.vault.create(targetPath, templateContent);
+            // 4. Crear nota con el contenido del template
+            file = await vault.create(targetPath, templateContent);
         }
 
-        const leaf = this.app.workspace.getLeaf(false);
+        // 5. Abrir la nota
+        const leaf = workspace.getLeaf(false);
         await leaf.openFile(file);
     }
 
-    public consoleApp(): void {
-        console.log(this.app);
+    public getAllCommands(): Command[] {
+        // @ts-ignore si TypeScript se queja
+        return (this.app.commands as any).listCommands();
     }
 
-    public getFileInVault(filePath: string): void {
-
-        const allFiles = this.app.vault.getFiles();
-        const templates = allFiles.filter(f => f.path.startsWith(filePath));
-
-
-        console.log(templates);
-    }
-
-    public async searchFiles(query: string, folderPrefix?: string, limit: number = 10): Promise<string[]> {
-        const q = (query || "").toLowerCase();
-        const allFiles = this.app.vault.getFiles();
-
-        let candidates = allFiles.filter(f => {
-            if (folderPrefix && !f.path.startsWith(folderPrefix)) return false;
-            const name = f.name.toLowerCase();
-            const path = f.path.toLowerCase();
-            return q === "" || name.includes(q) || path.includes(q);
-        });
-
-        // Orden simple: aquellos con índice más bajo (startsWith) antes
-        candidates.sort((a, b) => {
-            const ai = a.path.toLowerCase().indexOf(q);
-            const bi = b.path.toLowerCase().indexOf(q);
-            return ai - bi;
-        });
-
-        return candidates.slice(0, limit).map(f => f.path);
-    }
-
-    public async pickFile(title: string = "Select file", folderPrefix?: string, limit: number = 50): Promise<string | null> {
-        return new Promise(resolve => {
-            const provider = async (q: string) => await this.searchFiles(q, folderPrefix, limit);
-            const modal = new FileSuggestModal(this.app, provider, title, (result: string | null) => {
-                resolve(result);
-            });
-            modal.open();
-        });
-    }
 }
 
 export default ObsidianEngine;

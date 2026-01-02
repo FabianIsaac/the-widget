@@ -34,9 +34,12 @@ export default class TheWidget extends Plugin {
             });
         });
 
-        this.registerMarkdownCodeBlockProcessor('tw-weekly', (_, el, _ctx) => {
+        this.registerMarkdownCodeBlockProcessor('tw-weekly', (query, el, _ctx) => {
             this.weekly = mount(Weekly, {
-                target: el
+                target: el,
+                props: {
+                    data: JSON.parse(query.trim() || "{}")
+                }
             });
         });
 
@@ -72,5 +75,4 @@ export default class TheWidget extends Plugin {
     async saveSettings() {
         await this.saveData(this.settings);
     }
-
 }

@@ -1,27 +1,25 @@
-import { Setting } from "obsidian";
+import { Setting, SettingGroup } from "obsidian";
 import ObsidianEngine from "src/application/obsidian-engine";
-
+import type TheWidget from "src/main";
+import { type SettingsInterface } from "src/types";
+import { CommandSuggest } from "./suggestions/command.suggestion";
 
 export class WeekSettings {
 
-    constructor() { }
+    plugin: TheWidget;
+    element: HTMLElement;
+    settings: SettingsInterface;
+    obsidianEngine: ObsidianEngine;
 
-    public static create(element: HTMLElement): void {
-
-        const obsidianEngine = ObsidianEngine.getInstance();
-
-        new Setting(element).setName('Weekly settings').setHeading();
-        new Setting(element)
-            .setName('Template for weekly notes')
-            .setDesc('Template to use when creating new weekly notes.')
-            .addText((text) => text.setPlaceholder('Find template')
-                .setValue('')
-                .onChange(async (value) => {
-
-                    obsidianEngine.getFileInVault(value);
-                    
-                })
-            );
+    constructor(element: HTMLElement) {
+        this.obsidianEngine = ObsidianEngine.getInstance();
+        this.element = element;
+        this.settings = this.obsidianEngine.getSettings();
     }
 
+    public showSettings(element: HTMLElement): void {
+
+       
+
+    }
 }
