@@ -32,7 +32,7 @@ export const DEFAULT_SETTINGS: SettingsInterface = {
     dailyNoteTemplatePath: '',
     weekly: {
         week: 1,
-        year: 2024,
+        year: 2026,
         folderPath: '50_DIARIO',
         notesPath: "YYYY/MMMM/YYYY-MM-DD"
     }
