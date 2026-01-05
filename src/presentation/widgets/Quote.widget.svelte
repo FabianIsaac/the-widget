@@ -6,7 +6,6 @@
     import ObsidianEngine from "src/application/obsidian-engine";
     import Quote from "../components/Quote.component.svelte";
 
-
     const quoteHelper: QuoteHelper = QuoteHelper.getInstance();
     const obsidianEngine = ObsidianEngine.getInstance();
 
@@ -29,8 +28,6 @@
             loadingQuote = false;
         }
     };
-
-    
 </script>
 
 <div>

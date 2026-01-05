@@ -1,4 +1,4 @@
-import { Setting, SettingGroup } from "obsidian";
+import { SettingGroup } from "obsidian";
 import { ObsidianEngine } from "src/application";
 import type TheWidget from "src/main";
 import { DEFAULT_SETTINGS, type SettingsInterface } from "src/types";
