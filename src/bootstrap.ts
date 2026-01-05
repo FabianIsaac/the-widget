@@ -28,6 +28,7 @@ export class Bootstrap  {
             try {
                 await QuoteHelper.getInstance().fetchAndStoreDailyQuote();
             } catch (err) {
+                console.error("The Widget: Failed to fetch daily quote on load.", err);
                 ObsidianEngine.getInstance().message("Failed to fetch daily quote on load.");
             }
         }        

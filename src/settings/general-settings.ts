@@ -51,7 +51,7 @@ export class GeneralSettings {
         dateDesc.appendText('Tu sintaxis actual se ve así: ');
         const dateSampleEl = dateDesc.createEl('b', 'u-pop');
 
-        group.addSetting(settings => settings
+        void group.addSetting(settings => settings
             .setName('Formato a mostrar en los widgets que enlazan a la nota diaria')
             .setDesc(dateDesc)
             .addMomentFormat(momentFormat => momentFormat
@@ -63,17 +63,15 @@ export class GeneralSettings {
                     await this.obsidianEngine.saveSettings(this.settings);
                 }))
         );
-
-
     }
 
     private CommandForDailyNoteSetting(group: SettingGroup): void {
-        group.addSetting(setting => setting
+        void group.addSetting(setting => setting
             .setName('Comando para abrir la nota diaria')
             .setDesc('El comando que ejecutará el widget básico y el avanzado para abrir la nota diaria.')
             .addSearch(search => {
                 search.setValue(this.settings.commandForDailyNote || '')
-                    .setPlaceholder('Search for a command id')
+                    .setPlaceholder('Search for a command ID')
                     .onChange(async (value) => {
                         this.settings.commandForDailyNote = value;
                         await this.obsidianEngine.saveSettings(this.settings);
@@ -83,7 +81,7 @@ export class GeneralSettings {
     }
 
     private IconForWeeklyNoteSetting(group: SettingGroup): void {
-        group.addSetting(setting => setting
+        void group.addSetting(setting => setting
             .setName('Icono para el boton de nota semanal')
             .setDesc('El icono que se mostrará en el botón para abrir la nota semanal en el widget básico y avanzado.')
             .addText((text) => text.setPlaceholder('Ingrese el nombre del icono')
@@ -96,12 +94,12 @@ export class GeneralSettings {
     }
 
     private CommandForWeeklyNoteSetting(group: SettingGroup): void {
-        group.addSetting(setting => setting
+        void group.addSetting(setting => setting
             .setName('Comando para abrir la nota semanal')
             .setDesc('El comando que ejecutará el widget básico y el avanzado para abrir la nota semanal.')
             .addSearch(search => {
                 search.setValue(this.settings.commandForWeeklyNote || '')
-                    .setPlaceholder('Search for a command id')
+                    .setPlaceholder('Search for a command ID')
                     .onChange(async (value) => {
                         this.settings.commandForWeeklyNote = value;
                         await this.obsidianEngine.saveSettings(this.settings);
@@ -111,7 +109,7 @@ export class GeneralSettings {
     }
 
     private CreateQuoteSettings(group: SettingGroup): void {
-        group.addSetting(setting => setting
+        void group.addSetting(setting => setting
             .setName('Usar cita diaria')
             .setDesc('Habilitar o deshabilitar la función de cita diaria en los widgets básico y avanzado.')
             .addToggle(toggle => toggle
@@ -137,8 +135,7 @@ export class GeneralSettings {
         dateDesc.appendText('Tu sintaxis actual se ve así: ');
         const dateSampleEl = dateDesc.createEl('b', 'u-pop');
 
-
-        group.addSetting(settings => settings
+        void group.addSetting(settings => settings
             .setName('Formato')
             .setDesc(dateDesc)
             .addMomentFormat(momentFormat => momentFormat
@@ -155,7 +152,7 @@ export class GeneralSettings {
     }
 
     private FolderPathSetting(group: SettingGroup): void {
-        group.addSetting(setting => setting
+        void group.addSetting(setting => setting
             .setName('Carpeta de notas diarias')
             .setDesc('La ruta de la carpeta donde se almacenan las notas diarias.')
             .addText(text => text
@@ -171,7 +168,7 @@ export class GeneralSettings {
     }
 
     private TemplatePathSetting(group: SettingGroup): void {
-        group.addSetting(setting => setting
+        void group.addSetting(setting => setting
             .setName('Ruta de la plantilla para notas diarias')
             .setDesc('Plantilla que se utilizará para crear la nota diaria desde el widget semanal')
             .addText(text => text
