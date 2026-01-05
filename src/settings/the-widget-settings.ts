@@ -1,8 +1,7 @@
 import TheWidget from "src/main";
-import { App, PluginSettingTab, Setting, SettingGroup, TextComponent } from "obsidian";
-import { DEFAULT_SETTINGS, type SettingsInterface, type ActionInterface } from "src/types";
+import { App, PluginSettingTab, SettingGroup } from "obsidian";
+import { type SettingsInterface, type ActionInterface } from "src/types";
 import ObsidianEngine from "src/application/obsidian-engine";
-import { WeekSettings } from "./week-settings";
 import { GeneralSettings } from "./general-settings";
 import { CommandSuggest } from "./suggestions/command.suggestion";
 
@@ -15,7 +14,6 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
     obsidianEngine: ObsidianEngine;
 
     generalSettings: GeneralSettings;
-    weekSettings: WeekSettings;
 
     constructor(app: App, plugin: TheWidget) {
         super(app, plugin);
@@ -23,7 +21,6 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
         this.obsidianEngine = ObsidianEngine.getInstance();
         this.element = this.containerEl;
         this.settings = this.obsidianEngine.getSettings();
-        this.weekSettings = new WeekSettings(this.element);
         this.generalSettings = new GeneralSettings(this.element);
     }
 
@@ -38,8 +35,6 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
 
         this.CreateDynamicActionSettings(group);
         this.AddActionSetting(group);
-
-        this.weekSettings.showSettings(this.element);
     }
 
     private AddActionSetting(group: SettingGroup): void {
@@ -55,7 +50,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
         dateDesc.createEl('br');
         dateDesc.appendText('Your current syntax looks like this: ');
 
-        group.addSetting(setting => setting
+        void group.addSetting(setting => setting
             .setName('Action settings')
             .setDesc(dateDesc)
             .addButton(button => button
@@ -66,12 +61,11 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
                     this.display();
                 })
             ));
-
     }
 
     private CreateDynamicActionSettings(group: SettingGroup): void {
         this.settings.actions.forEach((action: ActionInterface, index: number) => {
-            group.addSetting(setting => setting
+            void group.addSetting(setting => setting
                 .setName(`Action ${index + 1}`)
                 .addText(text => text
                     .setPlaceholder('Tooltip (optional)')
@@ -91,7 +85,7 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
                 )
                 .addSearch(search => {
                     search.setValue(action.command)
-                        .setPlaceholder('Search for a command id')
+                        .setPlaceholder('Search for a command ID')
                         .onChange(async (value) => {
                             this.settings.actions[index].command = value;
                             await this.obsidianEngine.saveSettings(this.settings);
@@ -108,6 +102,4 @@ export class TheWidgetSettingsTab extends PluginSettingTab {
                 ))
         });
     }
-
-
 }

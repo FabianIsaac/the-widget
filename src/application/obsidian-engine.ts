@@ -62,7 +62,6 @@ class ObsidianEngine {
     }
 
     public executeCommandById(commandId: string): void {
-        // Intentar ejecutar mediante la app provista por el plugin
         try {
             // @ts-expect-error - acceso a API interna de Obsidian
             if (this.app && this.app.commands && typeof this.app.commands.executeCommandById === 'function') {
@@ -71,7 +70,8 @@ class ObsidianEngine {
                 return;
             }
         } catch (err) {
-            // Error al ejecutar en app: registrar y usar fallback
+            
+            console.error("The Widget: Error executing command in app.", err);
             this.message("Error executing command in app.");
 
             const event = new CustomEvent("obsidian-command", {
@@ -132,7 +132,7 @@ class ObsidianEngine {
 
     public getAllCommands(): Command[] {
         // @ts-ignore si TypeScript se queja
-        return (this.app.commands as any).listCommands();
+        return this.app.commands.listCommands();
     }
 
 }
