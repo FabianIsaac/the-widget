@@ -25,6 +25,40 @@
     justify-content: center !important;
 }
 
+.ow-justify-between {
+    justify-content: space-between;
+}
+
+/* Chip / badge */
+.ow-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1rem;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--text-muted) 10%, transparent);
+    color: var(--text-faint);
+    border: 1px solid var(--text-faint);
+    font-weight: thin;
+    font-size: 0.7rem;
+    line-height: 1;
+}
+
+/* Accent text utility */
+.ow-accent-text {
+    color: var(--text-accent) !important;
+}
+
+.ow-small-text {
+    font-size: 10pt;
+    line-height: 1.25rem;
+}
+
+.ow-big-text {
+    font-size: 2.5rem;
+    line-height: 1.75rem;
+}
+
 .ow-items-start {
     align-items: flex-start;
 }
@@ -130,11 +164,6 @@
         height: 1.25rem !important;
         stroke: var(--text-accent) !important;
     }
-}
-
-.ow-small-text {
-    font-size: 0.975rem !important;
-    line-height: 1.25rem;
 }
 
 .ow-year {
